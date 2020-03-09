@@ -30,7 +30,7 @@ General notes
 
 .. note::
 
-    The **FORMULA** file, contains informtion about the version of this formula, tested OS and OS families, and the minimum tested version of salt.
+    The ``FORMULA`` file, contains information about the version of this formula, tested OS and OS families, and the minimum tested version of salt.
 
     See the full `Salt Formulas installation and usage instructions
     <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
@@ -106,8 +106,8 @@ Requirements
    $ bundle install
    $ bin/kitchen test [platform]
 
-Where **[platform]** is the platform name defined in **kitchen.yml**,  
-e.g. **debian-9-2019-2-py3**.
+Where ``[platform]`` is the platform name defined in ``kitchen.yml``,  
+e.g. ``debian-9-2019-2-py3``.
 
 Test options
 ^^^^^^^^^^^^
@@ -126,7 +126,7 @@ Removes the docker instance.
 
 ``bin/kitchen test``
 ^^^^^^^^^^^^^^^^^^^^
-Runs all of the stages above in one go: i.e. **destroy** + **converge** + **verify** + **destroy**.
+Runs all of the stages above in one go: i.e. ``destroy`` + ``converge`` + ``verify`` + ``destroy``.
 
 ``bin/kitchen login``
 ^^^^^^^^^^^^^^^^^^^^^
