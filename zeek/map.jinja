@@ -1,0 +1,121 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+# Default setting for base_dir
+{% set base_dir = salt['pillar.get']('zeek:lookup:zeek:base_dir', '/opt/zeek') %}
+
+# Set default zeek settings
+{% set default_config = salt.grains.filter_by({
+  'default':
+  {
+    'zeek':
+    {
+      'base_dir': base_dir,
+      'use_ZeekPKG': 'False',
+      'python_pip_pkg': 'python36-pip',
+      'python_pip_cmd': 'pip3',
+      'MailTo': 'root@localhost',
+      'SendMail': '/sbin/sendmail',
+      'MailConnectionSummary': '1',
+      'MinDiskSpace': '5',
+      'MailHostUpDown': '1',
+      'LogRotationInterval': '3600',
+      'LogExpireInterval': '0',
+      'StatsLogEnable': '1',
+      'StatsLogExpireInterval': '0',
+      'StatusCmdShowAll': '0',
+      'CrashExpireInterval': '0',
+      'SitePolicyScripts': 'local.zeek',
+      'BinDir': base_dir + '/bin',
+      'LogDir': base_dir + '/logs',
+      'SpoolDir': base_dir + '/spool',
+      'CfgDir': base_dir + '/etc',
+      'ShareDir': base_dir + '/share/zeek',
+      'mode': 'standalone',
+      'use_pfring': 'False',
+      'use_afpacket': 'False',
+      'lb_method': 'pf_ring',
+      'lb_procs': '1',
+      'logging':
+      {
+        'use_rsyslog': 'True',
+        'target': 'esnode00.alias454.local',
+        'port': '13514',
+        'protocol': 'tcp',
+      },
+      'bpf':
+      {
+        'use_BPFconf': 'True',
+        'bpf_rules': [],
+      },
+      'optional':
+      {
+        'use_LibgeoIP': 'False',
+        'use_sendmail': 'False',
+        'relayhost': 'mail.domain.tld',
+      },
+      'interfaces':
+      {
+        'ip_binary_path': '/sbin/ip',
+        'management': 'eth0',
+        'capture': 
+        {
+          'enable': 'False',
+          'device_names': 'eth1',
+          'enable_tx': '0',
+          'min_num_slots': '4096',
+        },
+      },
+    },
+  },
+  'zeek00':
+  {		
+    'zeek':
+    {
+      'interfaces':
+      {
+        'management': 'eth0',
+        'capture': 
+        {
+          'enable': 'True',
+          'device_names': 'eth1',
+          'enable_tx': '0',
+          'min_num_slots': '32768',
+        },
+      },
+    },
+  },
+}, grain='host', base='default') %}
+
+# Get settings for os_family
+{% set os_lookup = {
+  'RedHat':
+  {
+    'package':
+    {
+      'install_type': 'package',
+      'use_repo': 'True',
+      'skip_verify': '0',
+      'repo_baseurl': 'http://download.opensuse.org/repositories/security:/zeek/CentOS_7/',
+      'repo_gpgkey': 'http://download.opensuse.org/repositories/security:/zeek/CentOS_7/repodata/repomd.xml.key',
+    }
+  },
+  'Debian':
+  {
+    'package':
+    {
+      'install_type': 'package',
+      'use_repo': 'True',
+      'skip_verify': '0',
+      'repo_baseurl': 'deb http://download.opensuse.org/repositories/security:/zeek/Debian_9.0/ /',
+      'repo_gpgkey': 'https://download.opensuse.org/repositories/security:zeek/Debian_9.0/Release.key',
+    }
+  }
+} %}
+{% set os_map = os_lookup.get(grains.os_family, {}) %} 
+
+# update the default config with os specific settings
+{% do default_config.update(os_map) %}
+
+# Merge the default settings with pillar data
+{% set host_lookup = salt['pillar.get']('zeek:lookup', default=default_config, merge=True) %}

@@ -1,0 +1,9 @@
+name: zeek
+os: Debian, Ubuntu, RedHat, CentOS
+os_family: Debian, RedHat
+version: 1.0.0
+release: 1
+minimum_version: 2018.3
+summary: zeek formula
+description: Formula to install ZEEK network security monitor(NSM)
+top_level_dir: zeek
