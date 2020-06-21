@@ -8,11 +8,9 @@
 package-install-zeek:
   pkg.installed:
     - pkgs:
-      - zeek
-      - zeekctl
-    {% if salt.grains.get('os_family') == 'Debian' %}
-      - zeek-common
-    {% endif %} 
+    {% for package in config.package.package %}
+      - {{ package }}
+    {% endfor %}
     - refresh: True
     - skip_verify: {{ config.package.skip_verify }}
     - require_in:

@@ -7,7 +7,7 @@ zeek-formula
    :alt: Travis CI Build Status
    :scale: 100%
 
-A saltstack formula to install Zeek(BRO) Network Security Monitor on RHEL or Debian based systems.
+A saltstack formula to install the Zeek Network Security Monitor on RHEL or Debian based systems.  
 
 Supports one capture interface at the moment. Adding ability to control multiple capture interfaces is on the TODO list
 
@@ -23,7 +23,7 @@ other components such as pf_ring.
 pfring-formula  
 https://github.com/saltstack-formulas/pfring-formula
 
-Compile your own zeek package using the guide `RPM package creation for ZEEK IDS Deployments https://alias454.com/rpm-package-creation-for-bro-ids-deployments/`_.
+Compile a custom Zeek package using the guide `RPM package creation for ZEEK IDS Deployments https://alias454.com/rpm-package-creation-for-bro-ids-deployments/`_.
 
 General notes
 -------------
@@ -49,8 +49,7 @@ Installs **zeek** and it's requirements, manages the configuration file, and sta
 
 ``zeek.zeek-repo``
 ^^^^^^^^^^^^^^^^^^
-Manage repo files on RHEL/CentOS 7 or Debian systems.  
-RHEL/CentOS 8 requires creating a custom package due to lack of supported packages
+Manage repo files for RHEL or Debian based systems.
 
 ``zeek.zeek-prereqs``
 ^^^^^^^^^^^^^^^^^^^^^
@@ -58,7 +57,7 @@ Install prerequisite packages.
 
 ``zeek.zeek-package``
 ^^^^^^^^^^^^^^^^^^^^^
-Install zeek packages.
+Install zeek packages. This formula can support deploying a custom binary built to your own specs.
 
 ``zeek.zeek-config``
 ^^^^^^^^^^^^^^^^^^^^
@@ -75,19 +74,19 @@ If using sendmail(postfix), manage relay host and service.
 
 ``zeek.zeek-service``
 ^^^^^^^^^^^^^^^^^^^^^
-Manage zeek service and a service to manage promiscuous mode of defined network interfaces on RHEL/CentOS 7/Debian systems.
+Manage zeek service and supprt configuring a service to manage promiscuous mode of defined network interfaces on RHEL/Debian systems.
 
 ``zeek.zeek-syslog``
 ^^^^^^^^^^^^^^^^^^^^
-Manage rsyslog config and service to send specifc log types to a remote collector.
+Manage rsyslog config and service to send logs to a remote collector.
 
 ``zeek.zeek-zeekpkg``
 ^^^^^^^^^^^^^^^^^^^^^
-Manage zeek-pkg pip module and plugin installations.
+Manage zkg pip module and plugin installations.
 
 ``zeek.zeek-cron``
 ^^^^^^^^^^^^^^^^^^
-Manage zeekctl cron entry.
+Manage zeekctl cron entry for housekeeping tasks.
 
 Testing
 -------

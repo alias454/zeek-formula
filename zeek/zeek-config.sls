@@ -61,8 +61,6 @@ group-manage-zeek:
         10.0.0.0/8          Private IP space
         172.16.0.0/12       Private IP space
         192.168.0.0/16      Private IP space
-    - watch_in:
-      - service: service-zeek
         
 # Configure network options
 {% if config.zeek.interfaces.capture.enable == 'True' %}
@@ -83,6 +81,8 @@ network_configure_{{ config.zeek.interfaces.capture.device_names }}:
     - gso: off
     - gro: off
     - lro: off
+    - watch_in:
+      - servcie: service-zeek
 {% endif %}
 
 # Manage systemd unit file to control promiscuous mode

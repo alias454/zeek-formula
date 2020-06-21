@@ -3,15 +3,17 @@
 
 {% from "zeek/map.jinja" import host_lookup as config with context %}
 
-# Make sure cronie is installed
+# Make sure cron is installed
 {% if salt.grains.get('os_family') == 'RedHat' %}
-package-install-cronie-zeek:
+  {% set cron_package = 'cronie' %}
+{% elif salt.grains.get('os_family') == 'Debian' %}
+  {% set cron_package = 'cron' %}
+{% endif %}
+package-install-cron-zeek:
   pkg.installed:
     - pkgs:
-      - cronie
+      - {{ cron_package }}
     - refresh: True
-{% elif salt.grains.get('os_family') == 'Debian' %}
-{% endif %}
 
 # Setup Cron for ZEEK runs every 5 minutes
 {{ config.zeek.BinDir }}/zeekctl cron:

@@ -20,9 +20,6 @@ service-zeek:
       - file: {{ config.zeek.CfgDir }}/node.cfg
       - file: {{ config.zeek.CfgDir }}/networks.cfg
       - file: /usr/lib/systemd/system/zeek.service
-    {% if config.zeek.interfaces.capture.enable == 'True' %}
-      - network: network_configure_{{ config.zeek.interfaces.capture.device_names }}
-    {% endif %}
     - require:
       - cmd: systemd-reload-zeek
 

@@ -1,7 +1,7 @@
 #override by OS
-if os.family == 'debian'
-  file_name = '/etc/zeek/node.cfg'
-elsif os.family == 'redhat'
+if os.family == 'redhat'
+  file_name = '/opt/zeek/etc/node.cfg'
+elsif os.family == 'debian'
   file_name = '/opt/zeek/etc/node.cfg'
 end
 

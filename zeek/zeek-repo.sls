@@ -31,7 +31,7 @@ command-apt-key-zeek:
 # The Zeek Network Security Monitor (Debian)
 zeek_repo:
   pkgrepo.managed:
-    - name: {{ config.package.repo_baseurl }} /
+    - name: {{ config.package.repo_baseurl }}
     - file: /etc/apt/sources.list.d/zeek.list
     - gpgcheck: 1
     - key_url: {{ config.package.repo_gpgkey }}

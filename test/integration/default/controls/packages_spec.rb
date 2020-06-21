@@ -1,7 +1,18 @@
 # Overide by OS
-package_name = 'zeek'
-if os[:name] == 'centos' and os[:release].start_with?('6')
-  package_name = 'zeek'
+if os.family == 'redhat'
+  if os[:release].start_with?('8')
+    package_name = 'zeek'
+  elsif os[:release].start_with?('7')
+    package_name = 'zeek-lts'
+  end
+elsif os.family == 'debian'
+  if os[:release].start_with?('10')
+    package_name = 'zeek'
+  elsif os[:release].start_with?('9')
+    package_name = 'zeek-lts'
+  elsif os[:release].start_with?('18')
+    package_name = 'zeek'
+  end
 end
 
 control 'zeek package' do

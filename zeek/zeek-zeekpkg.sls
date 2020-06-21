@@ -6,7 +6,13 @@
 # zeek-pkg is not bundled with the main install so we install it.
 
 {% if salt.grains.get('os_family') == 'RedHat' %}
+
 # Install prereqs for RHEL based systems
+{% if grains['osmajorrelease'] == 7 %}
+  {% set python_devel_pkg = 'python3-devel' %}
+{% elif grains['osmajorrelease'] == 8 %}
+  {% set python_devel_pkg = 'python36-devel' %}
+{% endif %}
 package-install-prereqs-zeekpkg:
   pkg.installed:
     - pkgs:
@@ -14,7 +20,7 @@ package-install-prereqs-zeekpkg:
        - kernel-devel
        - libpcap-devel
        - openssl-devel
-       - python-devel
+       - {{ python_devel_pkg }}
        - cmake
        - make
        - gcc
@@ -24,7 +30,7 @@ package-install-prereqs-zeekpkg:
 # Install prereqs for Debian based systems
 {% elif salt.grains.get('os_family') == 'Debian' %}
 
-# Set hard value for kernel incase 
+# Set hard value for kernel incase
 # running container on a different platform
 {% if salt['grains.get']('virtual_subtype') == 'Docker' %}
   {% if salt.grains.get('os') == 'Debian' %}
@@ -42,7 +48,7 @@ package-install-prereqs-zeekpkg:
        - linux-headers-{{ kernelrelease }}
        - libpcap-dev
        - libssl-dev
-       - python-dev
+       - python3-dev
        - cmake
        - make
        - gcc
@@ -50,56 +56,51 @@ package-install-prereqs-zeekpkg:
     - refresh: True
 {% endif %} # End RedHat/Debian
 
-# Install pip and other required packages
-pip-install-zeek:
-  pkg.installed:
-    - pkgs:
-      - {{ config.zeek.python_pip_pkg }}
-    - refresh: True
-    - unless: echo $(which zeek-pkg) |grep "no zeek-pkg"
+# Install/upgrade zeek-pkg requirements using pip3
+pip-package-pip-zeek:
+  pip.installed:
+    - names:
+       - pip
+       - setuptools
+    - upgrade: True
+    - bin_env: {{ config.zeek.python_pip_cmd }}
+    - user: root
+    - reload_modules: True
     - require:
       - pkg: package-install-prereqs-zeekpkg
-      - pkg: package-install-zeek
 
-# Upgrade older versions of pip
-pip-upgrade-zeek:
-  cmd.run:
-    - name: {{ config.zeek.python_pip_cmd }} install --upgrade pip
-    - onlyif: {{ config.zeek.python_pip_cmd }} list --outdated |grep pip
-    - runas: root
-    - require:
-      - pkg: pip-install-zeek
-
-# Install the zeek-pkg module
+# Install the zkg module
 pip-package-install-zeek-pkg:
-  cmd.run:
-    - name: {{ config.zeek.python_pip_cmd }} install --upgrade zeek-pkg
-    #- onlyif: {{ config.zeek.python_pip_cmd }} list --outdated |grep zeek-pkg
-    - unless: echo $(which zeek-pkg) |grep "no zeek-pkg"
-    - runas: root
+  pip.installed:
+    - names:
+       - zkg
+    - upgrade: True
+    - bin_env: {{ config.zeek.python_pip_cmd }}
+    - user: root
+    - reload_modules: True
     - require:
-      - cmd: pip-upgrade-zeek
+      - pip: pip-package-pip-zeek
 
 # Run autoconfig
 zeek-pkg-autoconfig:
   cmd.run:
-    - name: zeek-pkg autoconfig
-    - creates: /root/.zeek-pkg/config # either .zkg or .zeek-pkg
-    - unless: echo $(which zeek-pkg) |grep "no zeek-pkg"
+    - name: zkg autoconfig
+    - creates: /root/.zkg/config # either .zkg or .zeek-pkg
+    - unless: echo $(which zkg) |grep "no zkg"
     - runas: root
     - require:
-      - cmd: pip-package-install-zeek-pkg 
+      - pip: pip-package-install-zeek-pkg
 
-# Install plugins using zeek-pkg
+# Install plugins using zkg
 {% if config.package.install_type != 'package' %}
 {% for pkg in config.zeek.addon_plugins %}
 zeek-pkg-install-{{ pkg.plugin }}:
   cmd.run:
-    - name: zeek-pkg install {{ pkg.plugin }} --force
-    - unless: zeek-pkg list installed |grep {{ pkg.plugin }}
+    - name: zkg install {{ pkg.plugin }} --force
+    - unless: zkg list installed |grep {{ pkg.plugin }}
     - runas: root
     - require:
-      - cmd: pip-package-install-zeek-pkg 
+      - pip: pip-package-install-zeek-pkg
       - cmd: zeek-pkg-autoconfig
 {% endfor %}
 {% endif %}

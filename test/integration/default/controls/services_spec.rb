@@ -1,6 +1,6 @@
 # Overide by OS
 service_name = 'zeek'
-if os[:name] == 'centos' and os[:release].start_with?('6')
+if os[:name] == 'centos' and os[:release].start_with?('7')
   service_name = 'zeek'
 end
 

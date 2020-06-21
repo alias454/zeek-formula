@@ -21,6 +21,16 @@ package-install-prereqs-zeek:
        - gperftools
     - refresh: True
 
+{% if grains['osmajorrelease'] == 8 %}
+# Add the libpcap-devel package for zeek deployment
+command-add-libpcap-devel-zeek:
+  cmd.run:
+    - name: dnf --enablerepo=PowerTools install libpcap-devel -y
+    - unless: rpm -qa |grep libpcap-devel
+    - require:
+      - pkg: package-install-prereqs-zeek
+{% endif %}
+
 {% if config.package.install_type == 'tarball' %}
 # The ZEEK yum package does not support GeoIP
 # It must be configured at compile time.
