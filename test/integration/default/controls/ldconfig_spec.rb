@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Check for specific OS
 if os.family == 'redhat'
   control 'zeek library configuration' do
     title 'should match desired lines'

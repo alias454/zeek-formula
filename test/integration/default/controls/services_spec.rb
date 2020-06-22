@@ -1,8 +1,8 @@
+# frozen_string_literal: true
+
 # Overide by OS
 service_name = 'zeek'
-if os[:name] == 'centos' and os[:release].start_with?('7')
-  service_name = 'zeek'
-end
+service_name = 'zeek' if (os[:name] == 'centos') && os[:release].start_with?('7')
 
 control 'zeek service' do
   impact 0.5

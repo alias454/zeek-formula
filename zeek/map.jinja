@@ -40,50 +40,50 @@
         'use_rsyslog': 'True',
         'target': 'esnode00.alias454.local',
         'port': '13514',
-        'protocol': 'tcp',
+        'protocol': 'tcp'
       },
       'bpf':
       {
         'use_BPFconf': 'True',
-        'bpf_rules': [],
+        'bpf_rules': []
       },
       'optional':
       {
         'use_LibgeoIP': 'False',
         'use_sendmail': 'False',
-        'relayhost': 'mail.domain.tld',
+        'relayhost': 'mail.domain.tld'
       },
       'interfaces':
       {
         'ip_binary_path': '/sbin/ip',
         'management': 'eth0',
-        'capture': 
+        'capture':
         {
           'enable': 'False',
           'device_names': 'eth1',
           'enable_tx': '0',
-          'min_num_slots': '4096',
-        },
-      },
-    },
+          'min_num_slots': '4096'
+        }
+      }
+    }
   },
   'zeek00':
-  {		
+  {
     'zeek':
     {
       'interfaces':
       {
         'management': 'eth0',
-        'capture': 
+        'capture':
         {
           'enable': 'True',
           'device_names': 'eth1',
           'enable_tx': '0',
-          'min_num_slots': '32768',
-        },
-      },
-    },
-  },
+          'min_num_slots': '32768'
+        }
+      }
+    }
+  }
 }, grain='host', base='default') %}
 
 # Get settings for os_family
@@ -101,7 +101,7 @@
         ],
       'skip_verify': '0',
       'repo_baseurl': 'http://download.opensuse.org/repositories/security:/zeek/CentOS_7/',
-      'repo_gpgkey': 'http://download.opensuse.org/repositories/security:/zeek/CentOS_7/repodata/repomd.xml.key',
+      'repo_gpgkey': 'http://download.opensuse.org/repositories/security:/zeek/CentOS_7/repodata/repomd.xml.key'
     }
   },
   'Debian':
@@ -117,11 +117,11 @@
         ],
       'skip_verify': '0',
       'repo_baseurl': 'deb http://download.opensuse.org/repositories/security:/zeek/Debian_9.0/ /',
-      'repo_gpgkey': 'https://download.opensuse.org/repositories/security:zeek/Debian_9.0/Release.key',
+      'repo_gpgkey': 'https://download.opensuse.org/repositories/security:zeek/Debian_9.0/Release.key'
     }
   }
 } %}
-{% set os_map = os_lookup.get(grains.os_family, {}) %} 
+{% set os_map = os_lookup.get(grains.os_family, {}) %}
 
 # update the default config with os specific settings
 {% do default_config.update(os_map) %}

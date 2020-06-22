@@ -1,4 +1,6 @@
-#override by OS
+# frozen_string_literal: true
+
+# Override by OS
 if os.family == 'redhat'
   file_name = '/opt/zeek/etc/node.cfg'
 elsif os.family == 'debian'

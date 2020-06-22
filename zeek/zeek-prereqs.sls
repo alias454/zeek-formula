@@ -36,7 +36,7 @@ command-add-libpcap-devel-zeek:
 # It must be configured at compile time.
 # In most cases this will not be an issue
 # One can do GeoIP lookups further upstream
- 
+
 # Install GeoIP on RHEL based systems
 {% if config.zeek.optional.use_LibgeoIP == 'True' %}
 package-install-LibgeoIP-zeek:

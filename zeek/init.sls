@@ -7,7 +7,7 @@ include:
   - .zeek-package
   - .zeek-config
   - .zeek-bpfconf
-  - .zeek-sendmail  
+  - .zeek-sendmail
   - .zeek-service
   - .zeek-syslog
   - .zeek-zeekpkg
