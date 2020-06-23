@@ -10,7 +10,7 @@ zeek-formula
    :scale: 100%
    :target: https://travis-ci.com/saltstack-formulas/zeek-formula
 .. |img_sr| image:: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-      :alt: Semantic Release
+   :alt: Semantic Release
    :scale: 100%
    :target: https://github.com/semantic-release/semantic-release
 
