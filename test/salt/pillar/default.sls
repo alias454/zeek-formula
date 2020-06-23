@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
-
+---
 # ZEEK docs https://www.zeek.org/documentation/index.html
 zeek:
   lookup:
     package:
     {% if grains['os_family'] == 'RedHat' %}
-      install_type: 'package'                      # Install type can be package or local (support for tarball not implemented) 
+      install_type: 'package'                      # Install type can be package or local (support for tarball not implemented)
       local_package:                               # Can be multiple packages like zeek, zeekctl, zeekccoli etc.
         - pack_id: 'zeek-full'
           package: 'zeek-lts-3.0.7-1.2.x86_64'     # Custom package to be deployed
@@ -28,7 +28,7 @@ zeek:
      {% endif %}
       skip_verify: '0'
     {% elif grains['os_family'] == 'Debian' %}
-      install_type: 'package'                      # Install type can be package (support for tarball or local not implemented) 
+      install_type: 'package'                      # Install type can be package (support for tarball or local not implemented)
       use_repo: 'True'                             # Debian 9 does not require an external repo
      {% if grains['osmajorrelease'] == 9 %}
       package:
@@ -54,7 +54,7 @@ zeek:
     zeek:
       use_ZeekPKG: 'True'                    # Use zeek-pkg to manage plugins (requird for plugins such as af_packet etc)
       python_pip_cmd: '/usr/bin/pip3'        # Use pip3 to install zeekPKG
-      addon_plugins:                         # List of plugins to install if zeek-pkg is enabled 
+      addon_plugins:                         # List of plugins to install if zeek-pkg is enabled
         - plugin: 'zeek-af_packet-plugin'    # af_packet is required when use_afpacket == True
       MailTo: 'root@localhost'               # Recipient address for all emails sent out by Zeek and ZeekControl
       SendMail: '/sbin/sendmail'             # Path to sendmail binary
@@ -69,7 +69,7 @@ zeek:
       CrashExpireInterval: '0'               # Number of days that crash directories are kept
       SitePolicyScripts: 'local.zeek'        # Site-specific policy script to load
       base_dir: '/opt/zeek'                  # /opt/zeek is default for yum package install
-      mode: 'standalone'                     # Mode can be standalone or lb_cluster (load balanced cluster) 
+      mode: 'standalone'                     # Mode can be standalone or lb_cluster (load balanced cluster)
       use_pfring: 'False'                    # If pf_ring is installed set this to True. Must use "pf_ring" lb_method
       use_afpacket: 'True'                   # If you use AF_PACKET set this to True. Must use "custom" lb_method and use_ZeekPKG set to True
       lb_method: 'custom'                    # Load balancer type ("pf_ring" or "custom" are supported)
@@ -84,7 +84,7 @@ zeek:
         use_sendmail: 'False'                # Use sendmail(needs sendmail/postfix to be installed)
         relayhost: 'mail.domain.tld'         # Send email to a relay host
       interfaces:
-        ip_binary_path: '/sbin/ip'           # path to ip binary for managing 
+        ip_binary_path: '/sbin/ip'           # path to ip binary for managing
         management: 'eth0'                   # Management interface name
         capture:
           enable: 'False'

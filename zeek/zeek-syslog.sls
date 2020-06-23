@@ -17,7 +17,7 @@ zeek_rsyslog_config:
 {% if salt.grains.get('os_family') == 'RedHat' %}
 command-semanage-{{ config.zeek.logging.protocol }}-{{ config.zeek.logging.port }}-rsyslog-port:
   cmd.run:
-    - name: semanage port -a -t syslogd_port_t -p {{ config.zeek.logging.protocol }} {{ config.zeek.logging.port }} 
+    - name: semanage port -a -t syslogd_port_t -p {{ config.zeek.logging.protocol }} {{ config.zeek.logging.port }}
     - unless: semanage port -l |grep syslog |grep {{ config.zeek.logging.port }}
     - require-in:
       - service: service-rsyslog-zeek

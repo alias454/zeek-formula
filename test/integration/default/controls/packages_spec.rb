@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Overide by OS
 if os.family == 'redhat'
   if os[:release].start_with?('8')

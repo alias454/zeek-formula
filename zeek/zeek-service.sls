@@ -7,7 +7,7 @@
 systemd-reload-zeek:
   cmd.run:
     - name: systemctl --system daemon-reload
-    - onchanges:  
+    - onchanges:
       - file: /usr/lib/systemd/system/zeek.service
 
 # Make sure zeek service is running and restart the service 

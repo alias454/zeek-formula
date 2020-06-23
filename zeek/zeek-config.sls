@@ -61,7 +61,7 @@ group-manage-zeek:
         10.0.0.0/8          Private IP space
         172.16.0.0/12       Private IP space
         192.168.0.0/16      Private IP space
-        
+
 # Configure network options
 {% if config.zeek.interfaces.capture.enable == 'True' %}
 network_configure_{{ config.zeek.interfaces.capture.device_names }}:
@@ -105,7 +105,7 @@ network_configure_{{ config.zeek.interfaces.capture.device_names }}:
 
         [Install]
         WantedBy=multi-user.target
-        
+
 # Manage systemd unit file to control zeek
 # https://gist.github.com/JustinAzoff/db71b901b1070a88f2d72738bf212749
 /usr/lib/systemd/system/zeek.service:
